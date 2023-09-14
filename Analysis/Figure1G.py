@@ -184,13 +184,13 @@ UDtype = pd.DataFrame(['UD' for x in range(len(allcoefs_dn_ex))])
 
 summary = pd.DataFrame()
 summary['corr'] = pd.concat([DUcorr,UDcorr])
-summary['type'] = pd.concat([DUtype,UDtype])
+summary['Transition'] = pd.concat([DUtype,UDtype])
 
 #%% Plotting 
 
 sns.set_style('white')
 palette = ['royalblue', 'lightsteelblue']
-ax = sns.violinplot( x = summary['type'], y= summary['corr'] , data = summary, dodge = False,
+ax = sns.violinplot( x = summary['Transition'], y= summary['corr'] , data = summary, dodge = False,
                     palette = palette,cut = 2,
                     scale="width", inner=None)
 ax.tick_params(bottom=True, left=True)
@@ -199,10 +199,10 @@ ylim = ax.get_ylim()
 for violin in ax.collections:
     x0, y0, width, height = violin.get_paths()[0].get_extents().bounds
     violin.set_clip_path(plt.Rectangle((x0, y0), width / 2, height, transform=ax.transData))
-sns.boxplot(x = summary['type'], y = summary['corr'] , data = summary, saturation = 1, showfliers = False,
+sns.boxplot(x = summary['Transition'], y = summary['corr'] , data = summary, saturation = 1, showfliers = False,
             width = 0.3, boxprops = {'zorder': 3, 'facecolor': 'none'}, ax = ax)
 old_len_collections = len(ax.collections)
-sns.swarmplot(x = summary['type'], y = summary['corr'], data = summary, color = 'k', dodge = False, ax = ax)
+sns.swarmplot(x = summary['Transition'], y = summary['corr'], data = summary, color = 'k', dodge = False, ax = ax)
 
 for dots in ax.collections[old_len_collections:]:
     dots.set_offsets(dots.get_offsets())
