@@ -9,6 +9,7 @@ Created on Fri Sep 15 10:45:53 2023
 #import dependencies
 import numpy as np 
 import pandas as pd 
+import nwbmatic as ntm
 import pynapple as nap 
 import os
 import matplotlib.pyplot as plt 
@@ -28,7 +29,7 @@ for s in datasets:
     path = os.path.join(data_directory, s)
     
 ###Load the data
-    data = nap.load_session(path, 'neurosuite')
+    data = ntm.load_session(path, 'neurosuite')
     data.load_neurosuite_xml(path)
     spikes = data.spikes
     
@@ -41,7 +42,7 @@ for s in datasets:
     
 #%% Compute PETH 
 
-    cc2 = nap.compute_eventcorrelogram(spikes, nap.Tsd(up_ep['start'].values), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
+    cc2 = nap.compute_eventcorrelogram(spikes, nap.Ts(up_ep['start']), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
     tmp = pd.DataFrame(cc2)
     tmp = tmp.rolling(window=8, win_type='gaussian',center=True,min_periods=1).mean(std = 2)
     dd2 = tmp[0:0.155]
@@ -71,7 +72,9 @@ plt.imshow(masked_array.T, origin='lower', extent = [onsetbins[0],onsetbins[-1],
                                                aspect='auto', cmap = cmap)
 plt.colorbar(ticks = [min(counts.flatten()) + 1, max(counts.flatten())], label = '# cells')
 plt.xlabel('UP onset delay (s)')
+plt.xticks([0, 0.15])
 plt.ylabel('PMR')
+plt.yticks([0.5, 3.5])
 plt.gca().set_box_aspect(1)
 
 y_est = np.zeros(len(uponset))
