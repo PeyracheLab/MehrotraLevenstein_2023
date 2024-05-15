@@ -9,6 +9,7 @@ Created on Fri Sep 15 11:16:31 2023
 #import dependencies
 import numpy as np 
 import os
+import nwbmatic as ntm
 import pynapple as nap
 import matplotlib.pyplot as plt 
 
@@ -23,7 +24,7 @@ for s in datasets:
     path = os.path.join(data_directory, s)
     
 ###Loading the data
-    data = nap.load_session(path, 'neurosuite')
+    data = ntm.load_session(path, 'neurosuite')
     data.load_neurosuite_xml(path)
     spikes = data.spikes
     

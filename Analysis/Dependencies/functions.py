@@ -58,6 +58,24 @@ def crossCorr(t1, t2, binsize, nbins):
 
     return C
 
+def compute_EventCrossCorr(spks, evt, ep, binsize = 5, nbins = 1000, norm=False):
+    """
+    """
+    neurons = list(spks.keys())
+    times = np.arange(0, binsize*(nbins+1), binsize) - (nbins*binsize)/2
+    cc = pd.DataFrame(index = times, columns = neurons)
+    tsd1 = evt.restrict(ep).as_units('ms').index.values
+    for i in neurons:
+        spk2 = spks[i].restrict(ep).as_units('ms').index.values
+        tmp = crossCorr(tsd1, spk2, binsize, nbins)
+        fr = len(spk2)/ep.tot_length('s')
+        if norm:
+            cc[i] = tmp/fr
+        else:
+            cc[i] = tmp
+    return cc
+        
+
 def refineSleepFromAccel(acceleration, sleep_ep):
     vl = acceleration[0].restrict(sleep_ep)
     vl = vl.as_series().diff().abs().dropna()    
