@@ -10,6 +10,7 @@ Created on Fri Sep 15 16:05:14 2023
 import numpy as np 
 import pandas as pd 
 import scipy.io
+import nwbmatic as ntm
 import pynapple as nap 
 import os
 import matplotlib.pyplot as plt 
@@ -30,7 +31,7 @@ rawpath = os.path.join(readpath,s)
 
 #%% Loading the data
 
-data = nap.load_session(rawpath, 'neurosuite')
+data = ntm.load_session(rawpath, 'neurosuite')
 data.load_neurosuite_xml(rawpath)
 spikes = data.spikes  
 
@@ -67,7 +68,7 @@ up_ep = data.read_neuroscope_intervals(name = 'UP', path2file = file)
 
 #%% Compute PETH 
 
-cc2 = nap.compute_eventcorrelogram(spikes, nap.Tsd(up_ep['start'].values), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
+cc2 = nap.compute_eventcorrelogram(spikes, nap.Ts(up_ep['start']), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
 tmp = pd.DataFrame(cc2)
 tmp = tmp.rolling(window=8, win_type='gaussian',center=True,min_periods=1).mean(std = 2)
 

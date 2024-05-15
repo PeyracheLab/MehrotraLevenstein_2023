@@ -46,3 +46,4 @@ fig, ax = plt.subplots()
 [plt.plot(spikes[i].restrict(per).as_units('ms').fillna(i), '|', color = 'k') for i in desc]
 
 
+

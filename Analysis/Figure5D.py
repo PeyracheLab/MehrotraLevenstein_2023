@@ -10,6 +10,7 @@ Created on Fri Sep 15 11:44:08 2023
 import numpy as np 
 import pandas as pd 
 import scipy.io
+import nwbmatic as ntm
 import pynapple as nap 
 import os
 import matplotlib.pyplot as plt 
@@ -36,7 +37,7 @@ for s in datasets:
     rawpath = os.path.join(readpath,s)
 
 ###Loading the data
-    data = nap.load_session(rawpath, 'neurosuite')
+    data = ntm.load_session(rawpath, 'neurosuite')
     data.load_neurosuite_xml(rawpath)
     spikes = data.spikes  
         
@@ -77,7 +78,7 @@ for s in datasets:
     
 #%% Compute PETH 
 
-    cc2 = nap.compute_eventcorrelogram(spikes, nap.Tsd(up_ep['start'].values), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
+    cc2 = nap.compute_eventcorrelogram(spikes, nap.Ts(up_ep['start']), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
     tmp = pd.DataFrame(cc2)
     tmp = tmp.rolling(window=8, win_type='gaussian',center=True,min_periods=1).mean(std = 2)
     dd2 = tmp[0:0.155]  
@@ -113,7 +114,9 @@ plt.figure(figsize = (8,8))
 plt.scatter(projection[:,0], projection[:,1], c = cmap(H))
 plt.gca().set_box_aspect(1)
 plt.xlabel('dim 1')
+plt.xticks([])
 plt.ylabel('dim 2')
+plt.yticks([])
 
 #%% Specific examples from Isomap
     
@@ -132,8 +135,9 @@ for i in examples:
     plt.title('Example ' + str(i))
     plt.plot(summ['peth'][i])
     plt.axhline(y = 1, linestyle = '--', color = 'k')
-    plt.xlabel('Time from DU (ms)')
+    plt.xlabel('Time from DU (s)')
     plt.ylabel('Norm. rate')        
+    plt.gca().set_box_aspect(1)
 
 #%% Plot of PMR as a function of Isomap dimension 1 
 
@@ -143,7 +147,9 @@ plt.figure()
 plt.scatter(projection[:,0], PMR, label = 'r = ' + str(round(r,2)))
 plt.gca().set_box_aspect(1)
 plt.xlabel('dim 1')
+plt.xticks([])
 plt.ylabel('PMR')
+plt.yticks([0.5, 3])
 plt.legend(loc = 'upper right')
     
 #%% Gradient vector 
@@ -168,5 +174,7 @@ plt.title('Gradient vector')
 plt.xlim(0, 0.4)
 plt.ylim(-0.4, 0)
 plt.xlabel('dim 1')
+plt.xticks([])
 plt.ylabel('dim 2')
+plt.yticks([])
 plt.quiver(origin[0], origin[1],  mean_pmrr[0] ,  mean_pmrr[1], angles = 'xy', scale_units = 'xy', scale = 1)

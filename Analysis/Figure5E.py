@@ -56,7 +56,7 @@ for s in datasets:
     spks = spikedata['spikes']
     spk = {}
     for i in range(len(spks[0][0][1][0])):
-        spk[i] = nap.Ts(spks[0][0][1][0][i])
+        spk[i] = nap.Ts(spks[0][0][1][0][i].flatten())
     spikes = nap.TsGroup(spk)
     spikes = spikes[pyr]
     
@@ -73,7 +73,7 @@ for s in datasets:
     
 #%% Compute PETH 
 
-    cc = nap.compute_eventcorrelogram(spikes, nap.Tsd(up_ep['start'].values), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
+    cc = nap.compute_eventcorrelogram(spikes, nap.Ts(up_ep['start']), binsize = 0.005, windowsize = 0.255, ep = up_ep, norm = True)
     tmp = pd.DataFrame(cc)
     tmp = tmp.rolling(window=8, win_type='gaussian',center=True,min_periods=1).mean(std = 2)
     dd = tmp[0:0.155]
@@ -103,7 +103,9 @@ plt.imshow(masked_array.T, origin='lower', extent = [onsetbins[0],onsetbins[-1],
                                                aspect='auto', cmap = cmap)
 plt.colorbar(ticks = [min(counts.flatten()) + 1, max(counts.flatten())], label = '# cells')
 plt.xlabel('UP onset delay (s)')
+plt.xticks([0, 0.15])
 plt.ylabel('PMR')
+plt.yticks([0.5, 3.5])
 plt.gca().set_box_aspect(1)
 
 y_est = np.zeros(len(uponset))

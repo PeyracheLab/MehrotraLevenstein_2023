@@ -141,8 +141,10 @@ for s in datasets:
 
 plt.scatter(dur_D, dur_V, color = 'k', zorder = 3) 
 plt.gca().axline((min(min(dur_D),min(dur_V)),min(min(dur_D),min(dur_V)) ), slope=1, color = 'silver', linestyle = '--')
-plt.xlabel('Dorsal DOWN duration (ms)')
-plt.ylabel('Ventral DOWN duration (ms)')
+plt.xlabel('Dorsal DOWN (ms)')
+plt.xticks([80, 140])
+plt.ylabel('Ventral DOWN (ms)')
+plt.yticks([80, 140])
 plt.axis('square')
 
 #%% Stats 

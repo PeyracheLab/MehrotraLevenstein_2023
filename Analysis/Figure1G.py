@@ -209,7 +209,8 @@ for dots in ax.collections[old_len_collections:]:
 ax.set_xlim(xlim)
 ax.set_ylim(ylim)
 plt.axhline(0, color = 'silver')
-plt.ylabel('Delay v/s depth (R)')
+plt.ylabel('Delay v/s D-V position (R)')
+plt.yticks([-0.8, 0, 0.6])
 ax.set_box_aspect(1)
 
 #%% Stats 

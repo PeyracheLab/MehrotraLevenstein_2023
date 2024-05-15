@@ -134,10 +134,13 @@ cellinfo = cellinfo.loc[order]
 fig, ax = plt.subplots()
 cax = ax.imshow(finalRates.T,extent=[-150 , 50, len(pyr)+1 , 1],aspect = 'auto', cmap = 'inferno', vmin = 0, vmax = 2)
 plt.scatter(cellinfo.values, np.arange(1.5,len(pyr)+1,1), c = 'w', s = 4)
-cbar = fig.colorbar(cax, ticks=[0, 2], label = 'Norm. Firing Rate')
+cbar = fig.colorbar(cax, ticks=[0, 2], label = 'Norm. rate')
 cbar.ax.set_yticklabels(['0', '>=2'])
-ax.set_ylabel('Neuron number')
-ax.set_xlabel('Lag (ms)')
+ax.set_ylabel('Cells sorted by D-V position (125)')
+ax.set_yticks([])
+ax.set_xlabel('Time to DOWN onset (ms)')
+ax.set_xticks([-150, 0, 50])
+plt.axvline(0, color = 'w', linestyle = '--')
 ax.set_box_aspect(1)
 
 
