@@ -1,3 +1,3 @@
 # MehrotraLevenstein_2023
 
-Code for "Hyperpolarization-Activated Currents Drive Neuronal Activation Sequences in Sleep", available at https://www.biorxiv.org/content/10.1101/2023.09.12.557442v1
+Code for "Hyperpolarization-Activated Currents Drive Neuronal Activation Sequences in Sleep", available [here](https://doi.org/10.1016/j.cub.2024.05.048) 
